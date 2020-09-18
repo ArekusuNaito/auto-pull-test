@@ -20,7 +20,7 @@ webServer.get(`/ping`,(request,response)=>
 
 webServer.post(`/push`,(request,response)=>
 {
-    ExecuteShell('git reset –-hard HEAD && git pull',(error,output,stdError)=>
+    ExecuteShell('git reset -hard HEAD && git pull',(error,output,stdError)=>
     {
         if(!error)
         {
