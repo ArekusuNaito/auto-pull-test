@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const ExecuteShell = require('child_process').exec;
 
 
 
@@ -19,8 +20,23 @@ webServer.get(`/ping`,(request,response)=>
 
 webServer.post(`/push`,(request,response)=>
 {
-    console.log(`You pushed!`);
-    response.status(200).send(`Did you push something?`);
+    ExecuteShell('git reset –-hard HEAD && git pull',(error,output,stdError)=>
+    {
+        if(!error)
+        {
+            console.log("~ Successful auto code update ~")
+            console.log(output);
+            console.log("~ ~ ~");
+            response.sendStatus(200);
+        }
+        else
+        {
+            console.error('~ Error auto updating code ~');
+            console.log(error);
+            console.log("~ ~ ~");
+            response.sendStatus(500);
+        }
+    })
 })
 
 
